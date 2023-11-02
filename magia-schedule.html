@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User profile</title>
+    <!-- <script src="assets/dist/js/leader.js"></script> -->
+    <!-- <link rel="stylesheet" href="assets/dist/css/leader.css"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    body{
+font-size: 20px;
+text-align:center;
+font-family: 'Inter', sans-serif;
+}
+h1{
+font-size: 48px;
+}
+h2{
+font-size: 36px;
+}
+#wand{
+filter: grayscale(100%); 
+transition: 0.5s opacity linear; 
+margin: 30px 0;
+opacity: 50%;
+} 
+
+#wand:hover{
+filter: none; 
+opacity: 100%;
+}
+
+#schedule{
+display: none;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+gap:30px;
+margin-top:40px;
+}
+
+.day-name{
+font-weight: medium;
+}
+
+.student-pic{
+height:200px;
+width:200px;
+background-image: url('./avatar-placeholder.png');
+background-size: contain; 
+border-radius: 50%;
+margin: 30px;
+border: white 6px solid;
+box-shadow: 3px;
+}
+
+
+.student-pic img{
+height:200px;
+width:200px;
+border-radius: 50%;
+}
+
+/* Bottom Menu */
+#bottom-menu{
+    height:59px;
+    border-top: 1px solid rgba(217, 217, 217, 0.25);
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.85));
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+</style>
+<script>
+function setStudentPic(day, name){
+    var img = new Image();
+    var filePath = './'+  name + '.jpeg';
+    img.src = filePath  ;
+    
+    console.log (img.outerHTML );
+    document.getElementById(day + 'Pic').innerHTML = img.outerHTML ;
+
+}
+
+function showDays(){
+  var missing_students_Monday= ['Rita'];
+  var missing_students_Tuesday= ['Guy', 'Anior', 'Yahor','Rita','Duarte','Rafa','Anna Sophia', 'Rosie', 'Elisa', 'Annamaja'];
+  var missing_students_Wednesday= ['Rita', 'Elisa', 'Anna Sophia', 'Guy'];
+  var missing_students_Thursday= ['Gabriel', 'Andreas', 'Rita', 'Elisa', 'Frankie', 'Stef', 'Rafa', 'EmmaN', 'Eef', 'Annamaja', 'Tom'];
+  var missing_students_Friday= ['Joao'];
+  var missing_students= [missing_students_Monday,missing_students_Tuesday,missing_students_Wednesday,missing_students_Thursday,missing_students_Friday];
+  var LastWeek= ['Guy', 'Tom', 'Yahor', 'Anior', 'Rafa'];
+  var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  var students = ['Edin','EmmaN', 'Guy', 'Tom', 'Anior', 'Misha', 'Yahor', 'Annamaja', 'Maja', 'Joana',
+  'Stef', 'Eef', 'Rafa', 'Eben', 'Joshua', 'Boris', 'Haleli', 'Maya', 'Rita', 'Anna Sophia',
+  'Elisa', 'Frankie', 'Carlito', 'Andreas', 'Enzo', 'Cody', 'Rosie', 'Gabriel', 'Lawrie',
+  'Guilherme', 'EmmaA', 'Teresa', 'Duarte', 'Emil', 'Joao'];
+  let i = 0;
+ 
+  while( i < days.length ){
+      var j = students.length;
+      var random_i = Math.floor(Math.random() * j);
+
+      while (missing_students[i].includes(students[random_i]) || (LastWeek.includes(students[random_i]))){
+          random_i = Math.floor(Math.random() * j);
+      }
+      document.getElementById(days[i]).innerHTML = days[i] ;
+      document.getElementById(days[i] + 'Leader').innerHTML = students[random_i];
+      setStudentPic(days[i] ,students[random_i]);
+      students.splice(random_i, 1);
+      i++;
+  }   
+  document.getElementById("schedule").style.display = "flex"; 
+
+    }
+
+  function chooseWeek(){
+    var currentDate = new Date();
+    console.log();
+    var startDate = new Date(currentDate.getFullYear(), 0, 1);
+    console.log(startDate);
+    var days = Math.floor((currentDate - startDate) /(24 * 60 * 60 * 1000));
+    console.log(days);
+    var weekNumber = Math.ceil(days / 7);
+    console.log(weekNumber);
+    document.getElementById('this-week').setAttribute("min", currentDate.getFullYear() + "-W" +(weekNumber+2));
+  }
+  
+
+</script>
+
+<body onload="chooseWeek();">
+
+    <section class="weekly-magia-schedule">
+        <h1>Magia Leaders</h1>
+        
+        <h2>Click on the magic wand to generate Magia leaders list:</h2>
+        <img id="wand" src="./magic-wand.png" onclick="showDays()">
+        <div id="schedule">
+            <div class="day">
+                <div class="day-name" id="Monday"></div>
+                <div class="student-pic"  id="MondayPic"></div>
+                <div class="student-name" id="MondayLeader"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Tuesday"></div>
+                <div class="student-pic"  id="TuesdayPic"></div>
+                <div class="student-name" id="TuesdayLeader"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Wednesday"></div>
+                <div class="student-pic"  id="WednesdayPic"></div>
+                <div class="student-name" id="WednesdayLeader"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Thursday"></div>
+                <div class="student-pic" id="ThursdayPic"></div>
+                <div class="student-name" id="ThursdayLeader"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Friday"></div>
+                <div class="student-pic" id="FridayPic"></div>
+                <div class="student-name" id="FridayLeader"></div>
+            </div>
+        </div>
+
+    </section>
+    <div id="bottom-menu">
+        
+    </div>
+</body>
+</html>
+
+<!-- 
+<div class="ssX1Bd KZt9Tc"><div class="V4d7Ke wzWPxe"></div>
+<div class="V4d7Ke OIC90c">Punch card</div>
+<div class="V4d7Ke OIC90c">Lista de microondas</div>
+<div class="V4d7Ke OIC90c">Cube timer (leadboard)</div>
+<div class="V4d7Ke OIC90c">Organize homework by subjects and manage homework deadlines</div>
+<div class="V4d7Ke OIC90c">Magic leader randomizer</div>
+<div class="V4d7Ke OIC90c">Traffic light for class entrance\meetings</div>
+<div class="V4d7Ke OIC90c">Home education portfolio</div>
+<div class="V4d7Ke OIC90c">Educational games\tools</div>
+<div class="V4d7Ke OIC90c">Cerejeiras Dictionary</div>
+<div class="V4d7Ke OIC90c">Online library of school projects</div></div> -->

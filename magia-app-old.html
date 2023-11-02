@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Magia Leader Generator</title>
+    <script>
+        function showDays(){
+              var missing_students_Monday= ['Rita'];
+              var missing_students_Tuesday= ['Guy', 'Anior', 'Yahor','Rita','Duarte','Rafa','Anna Sophia', 'Rosie', 'Elisa', 'Annamaja'];
+              var missing_students_Wednesday= ['Rita', 'Elisa', 'Anna Sophia', 'Guy'];
+              var missing_students_Thursday= ['Gabriel', 'Andreas', 'Rita', 'Elisa', 'Frankie', 'Stef', 'Rafa', 'EmmaN', 'Eef', 'Annamaja', 'Tom'];
+              var missing_students_Friday= ['João'];
+              var missing_students= [missing_students_Monday,missing_students_Tuesday,missing_students_Wednesday,missing_students_Thursday,missing_students_Friday];
+
+              var LastWeek = JSON.parse( window.AppInventor.getWebViewString());
+              if(!Array.isArray(LastWeek)){
+                alert("Failed to load last week students, starting generating from scratch.");
+              }
+              
+              var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+              var students = ['Edin','EmmaN', 'Guy', 'Tom', 'Anior', 'Misha', 'Yahor', 'Annamaja', 'Maja', 'Joana',
+              'Stef', 'Eef', 'Rafa', 'Eben', 'Joshua', 'Boris', 'Haleli', 'Maya', 'Rita', 'Anna Sophia',
+              'Elisa', 'Frankie', 'Carlito', 'Andreas', 'Enzo', 'Cody', 'Rosie', 'Gabriel', 'Lawrie',
+              'Guilherme', 'EmmaA', 'Teresa', 'Duarte', 'Emil', 'João', 'Alice', 'David'];
+              let i = 0;
+              let leaders = []; 
+              while( i < days.length ){
+                  var j = students.length;
+                  var random_i = Math.floor(Math.random() * j);
+                  var random_i2 = Math.floor(Math.random() * j);
+        
+                  while (missing_students[i].includes(students[random_i]) || (LastWeek.includes(students[random_i]))){
+                      random_i = Math.floor(Math.random() * j);
+                  }
+                  while (missing_students[i].includes(students[random_i2]) || (LastWeek.includes(students[random_i2])) || random_i2 == random_i){
+                    random_i2 = Math.floor(Math.random() * j);
+                }
+        
+                  document.getElementById(days[i]).innerHTML = days[i] ;
+                  document.getElementById(days[i] + 'Leader').innerHTML = students[random_i];
+                  document.getElementById(days[i] + 'Leader2').innerHTML = students[random_i2];
+                 
+                  leaders.push(students[random_i]);
+                  leaders.push(students[random_i2]);
+
+                  students.splice(random_i, 1);
+                 
+                  if (random_i < random_i2) {
+                    students.splice(random_i2-1, 1);
+        
+                  }
+                  else {
+                    students.splice(random_i2, 1);
+        
+                  }
+                  i++;
+              }  
+              document.getElementById("schedule").style.display = "flex";
+              window.AppInventor.setWebViewString(JSON.stringify(leaders));
+          }
+        
+    </script>
+    <style>
+    
+    body{
+        font-size: 20px;
+        text-align:center;
+        font-family: 'Inter', sans-serif;
+    }
+    h1{
+        font-size: 48px;
+    }
+    h2{
+        font-size: 36px;
+    }
+    #wand{
+        filter: grayscale(100%);
+        transition: 0.5s opacity linear;
+        margin: 30px 0;
+        opacity: 50%;
+    }
+    
+    #wand:hover{
+        filter: none;
+        opacity: 100%;
+    }
+        
+    #schedule{
+        display: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap:30px;
+        margin-top:40px;
+    }
+    
+    .day-name{
+        font-weight: medium;
+    }
+    
+    .student-pic{
+        height:200px;
+        width:200px;
+        background-image: url('./NINJA.png');
+        background-size: cover;
+        border-radius: 50%;
+        margin: 30px;
+    
+    }
+        
+    </style>
+</head>
+<body>
+
+    <section class="weekly-magia-schedule">
+        <h1>Magia Leaders</h1>
+        <h2>Click on the magic wand to generate Magia leaders list:</h2>
+        <img id="wand" src="./magic-wand.png" onclick="showDays()">
+        <div id="schedule">
+            <div class="day">
+                <div class="day-name" id="Monday"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="MondayLeader"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="MondayLeader2"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Tuesday"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="TuesdayLeader"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="TuesdayLeader2"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Wednesday"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="WednesdayLeader"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="WednesdayLeader2"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Thursday"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="ThursdayLeader"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="ThursdayLeader2"></div>
+            </div>
+            <div class="day">
+                <div class="day-name" id="Friday"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="FridayLeader"></div>
+                <div class="student-pic"></div>
+                <div class="student-name" id="FridayLeader2"></div>
+            </div>
+        </div>
+
+    </section>
+
+
+</body>
+</html>
